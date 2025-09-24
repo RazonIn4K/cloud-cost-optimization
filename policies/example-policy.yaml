@@ -1,0 +1,25 @@
+rightsizing:
+  cpu_p95_lt: 0.30
+  mem_p95_lt: 0.40
+  lookback_days: 14
+  min_instance_size: "2 vCPU / 8GB"
+  exclude_labels:
+    - do-not-rightsize=true
+    - env=prod
+scheduling:
+  windows:
+    - name: dev-offhours
+      days: [Mon, Tue, Wed, Thu, Fri]
+      off: "20:00"
+      on: "07:00"
+    - name: weekend-analytics
+      days: [Sat, Sun]
+      off: "18:00"
+      on: "09:00"
+change_management:
+  batch_percent: 10
+  canary_minutes: 30
+  rollback_on:
+    - p95_latency_gt_ms: 200
+    - error_rate_gt: 0.02
+  audit_log: true
